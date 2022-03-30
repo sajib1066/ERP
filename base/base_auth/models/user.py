@@ -1,5 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import (
+    AbstractBaseUser, BaseUserManager, PermissionsMixin
+)
 from django.utils.translation import gettext_lazy as _
 
 
@@ -34,19 +36,30 @@ class Usermanager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.CharField(
         _("Email Address"), max_length=255, unique=True, db_index=True
     )
     name = models.CharField(max_length=255)
     is_staff = models.BooleanField(_("Staff Status"), default=False)
     is_active = models.BooleanField(_("Active Status"), default=True)
+    accepted_terms = models.BooleanField(_("accepted terms"), default=False)
+    read_new_terms = models.BooleanField(_("new terms read"), default=False)
     date_joined = models.DateTimeField(_("Date Joined"), auto_now_add=True)
     last_updated = models.DateTimeField(_("Last Updated"), auto_now=True)
+    email_token = models.CharField(
+        max_length=200, null=True, blank=True, default=None,
+        verbose_name=_("email token")
+    )
+    additional_email = models.EmailField(
+        _("additional email address"), null=True, blank=True
+    )
+    verified_email = models.BooleanField(default=True)
 
     objects = Usermanager()  # Custom user manager
 
     USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["name"]
 
     def __str__(self):
         return self.email

@@ -75,6 +75,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ERP.wsgi.application'
 
+AUTH_USER_MODEL = 'base_auth.User'  # user model
+
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
