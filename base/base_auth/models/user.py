@@ -14,7 +14,7 @@ class Usermanager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)  # Encrypt password
-        user.save(using=self._db) # safe for multiple databases
+        user.save(using=self._db)  # safe for multiple databases
         return user
 
     def create_user(self, email, password=None, **extra_fields):
@@ -22,13 +22,13 @@ class Usermanager(BaseUserManager):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
-    
+
     def create_staffuser(self, email, password, **extra_fields):
         """ Create and save a staff user with given email and password """
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
-    
+
     def create_superuser(self, email, password, **extra_fields):
         """ Create and save a superuser with given email and password """
         extra_fields.setdefault('is_staff', True)
