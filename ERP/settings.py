@@ -41,6 +41,7 @@ DJANGO_APPS = [
 
 LOCAL_APPS = [
     'base.base_auth',
+    'base.home',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
